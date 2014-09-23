@@ -11,7 +11,7 @@ var slides = {
   next: null,
 
   // direction 'next'|'prev'
-  dir: null
+  currentDir: null
 };
 
 var Slides = function(opts){
@@ -63,11 +63,11 @@ Slides.prototype.animationCallback = function(){
   // can animate again
   slides.isBusy = false;
 };
-Slides.prototype.animSlides = function(dir){
+Slides.prototype.animSlides = function(){
   // targets
   this.current = this.array[this.elCounter];
   this.next = this.array[ this.currentDir === "next" ? this.elCounter + 1 : this.elCounter - 1 ];
-
+debugger
   // current slide
   this.current.$el
     .classList.add('fadeOut');
@@ -85,7 +85,7 @@ slides.init();
 
 // keyboard navigation
 document.onkeydown = function(e){
-  var dir, canAnim;
+  var canAnim;
   var keyCode = e.keyCode;
 
   if(keyCode === 39){
