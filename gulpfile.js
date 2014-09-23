@@ -17,11 +17,8 @@ var prefix = require('gulp-autoprefixer');
 var cssmin  = require('gulp-cssmin');
 
 // js
-var browserify = require('browserify');
-var source = require('vinyl-source-stream');
 var jshint = require('gulp-jshint');
 var stylish = require('jshint-stylish');
-var streamify = require('gulp-streamify');
 var uglify = require('gulp-uglify');
 
 // imgs
@@ -89,13 +86,8 @@ var inProd = options.prod;
   gulp.task('js', function(){
     gulp.src('./src/js/**/*.js')
       .pipe(jshint())
-      .pipe(jshint.reporter('jshint-stylish'));
-
-    return browserify('./src/js/app.js', inProd ? gutil.noop() : opts.browserify)
-      .bundle()
-      .on('error', handleError)
-      .pipe(source('app.js'))
-      .pipe(inProd ? streamify(uglify()) : gutil.noop())
+      .pipe(jshint.reporter('jshint-stylish'))
+      .pipe(inProd ? uglify() : gutil.noop())
       .pipe(gulp.dest('dist/js/'))
       .pipe(inProd ? gutil.noop() : browserReload({ stream: true, once: true}));
   });
