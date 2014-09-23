@@ -1,30 +1,14 @@
-var domready = require('domready');
-var qwery = require('qwery');
-var bonzo = require('bonzo');
-var bean = require('bean');
-var localLogger = require('./logger.js');
+var slides = {
+  $el: document.querySelectorAll('.slide')
+};
 
-domready(function() {
-  console.log('domready!');
+var Slides = function(opts){
+  for(var entry in opts){
+    this[entry] = opts[entry];
+  }
+};
 
-  localLogger('pouet');
-
-  // query selector engine
-  // https://github.com/ded/qwery
-  var $p = qwery('p');
-
-  // extensible DOM utility
-  // https://github.com/ded/bonzo
-  bonzo($p)
-    .addClass('pouet')
-    .css({
-      color: '#444'
-    });
-
-  // events api for javascript
-  // https://github.com/fat/bean
-  bean.on(document.body, 'click', function(e){
-    console.log('body clicked', e);
-  });
-
-});
+Slides.prototype = slides;
+Slides.prototype.init = function(){
+  console.log('Slides.init();');
+};

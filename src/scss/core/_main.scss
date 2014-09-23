@@ -5,22 +5,10 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-section {
-  margin-bottom: 4em;
+html, body, .slides-container {
+  height: 100%;
 }
 
-.app {
-  margin: 0 auto;
-  padding-top: 5em;
-
-  // mixins tests
-  @include rem(width, 600px);
-  @include fz(16px, 1.5);
-
-  // autoprefixer tests
-  box-sizing: border-box;
-  transition: all 1s ease-out;
-}
 
 
 /*
@@ -42,4 +30,22 @@ h2 {
 p {
   line-height: 1.8;
   margin: 0 0 1em 0;
+}
+
+
+
+/*
+ * $Tip
+ */
+.tip {
+  @include pos(a, x, x, 10%, 50%);
+  z-index: 100;
+  padding: 20px 40px;
+  font-size: .9em;
+  font-weight: 400;
+  text-align: center;
+  color: #fff;
+  background-color: rgba(0,0,0, .6);
+  border-radius: 3px;
+  transform: translateX(-50%);
 }
