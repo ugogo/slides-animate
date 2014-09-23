@@ -1,104 +1,111 @@
-var slides = {
-  $el: document.querySelectorAll('.slide'),
-  elCounter: 0,
-  isBusy: true,
+var slidesAnimate = (function(opts){
+  'use strict';
 
-  array: [],
+  // default opts
+  var slides = {
+    $el: document.querySelectorAll('.slide'),
+    elCounter: 0,
+    isBusy: true,
 
-  // slides
-  // {$el: $el, animationIn: 'fadeIn'};
-  current: null,
-  next: null,
+    array: [],
 
-  // direction 'next'|'prev'
-  currentDir: null
-};
+    // slides
+    // {$el: $el, animationIn: 'fadeIn'};
+    current: null,
+    next: null,
 
-var Slides = function(opts){
-  for(var entry in opts){
-    this[entry] = opts[entry];
-  }
-};
+    // direction 'next'|'prev'
+    currentDir: null
+  };
 
-Slides.prototype = slides;
-Slides.prototype.init = function(){
-  // count total slides
-  this.elLength = this.$el.length;
-
-  // set current slide
-  this.$el[this.elCounter].classList.add('is-current');
-
-  // create an object for each slide
-  // and push it to a main array
-  [].forEach.call(
-    this.$el,
-    function($el, i){
-      var obj = {
-        $el: $el,
-        animationIn: $el.dataset.animation
-      };
-      slides.array.push(obj);
+  var init = function(opts){
+    // set options
+    for(var option in opts){
+      slides[option] = opts[option];
     }
-  );
 
-  // ready
-  this.isBusy = false;
-};
-Slides.prototype.animationCallback = function(){
-  // current slide
-  slides.current.$el.classList.remove('is-current');
-  slides.current.$el.classList.remove('fadeOut');
+    // count total slides
+    slides.elLength = slides.$el.length;
 
-  // next slide
-  this.classList.add('is-current');
-  this.classList.remove(slides.next.animationIn);
-  this.removeEventListener('webkitAnimationEnd', slides.animationCallback);
+    // set current slide
+    slides.$el[slides.elCounter].classList.add('is-current');
 
-  // update counter
-  if(slides.currentDir == "next")
-    slides.elCounter++;
-  else
-    slides.elCounter--;
+    // create an object for each slide
+    // and push it to a main array
+    [].forEach.call(
+      slides.$el,
+      function($el, i){
+        var obj = {
+          $el: $el,
+          animationIn: $el.dataset.animation
+        };
+        slides.array.push(obj);
+      }
+    );
 
-  // can animate again
-  slides.isBusy = false;
-};
-Slides.prototype.animSlides = function(){
-  // targets
-  this.current = this.array[this.elCounter];
-  this.next = this.array[ this.currentDir === "next" ? this.elCounter + 1 : this.elCounter - 1 ];
+    // ready
+    slides.isBusy = false;
+  };
+  var animationCallback = function(){
+    // current slide
+    slides.current.$el.classList.remove('is-current');
+    slides.current.$el.classList.remove('fadeOut');
 
-  // current slide
-  this.current.$el
-    .classList.add('fadeOut');
+    // next slide
+    this.classList.add('is-current');
+    this.classList.remove(slides.next.animationIn);
+    this.removeEventListener('webkitAnimationEnd', animationCallback);
 
-  // next slide
-  this.next.$el
-    .classList.add(this.next.animationIn);
+    // update counter
+    console.log(slides.currentDir)
+    if(slides.currentDir === "next")
+      slides.elCounter++;
+    else
+      slides.elCounter--;
 
-  // callback on next
-  this.next.$el.addEventListener('webkitAnimationEnd', slides.animationCallback);
-};
+    // can animate again
+    slides.isBusy = false;
+  };
+  var animSlides = function(){
+    // targets
+    slides.current = slides.array[slides.elCounter];
+    slides.next = slides.array[ slides.currentDir === "next" ? slides.elCounter + 1 : slides.elCounter - 1 ];
 
-// init slides
-slides.init();
+    // current slide
+    slides.current.$el
+      .classList.add('fadeOut');
 
-// keyboard navigation
-document.onkeydown = function(e){
-  var canAnim;
-  var keyCode = e.keyCode;
+    // next slide
+    slides.next.$el
+      .classList.add(slides.next.animationIn);
 
-  if(keyCode === 39){
-    slides.currentDir = 'next';
-    canAnim = (slides.elCounter < slides.elLength - 1);
-  }
-  else if(keyCode === 37){
-    slides.currentDir = 'prev';
-    canAnim = (slides.elCounter > 0);
-  }
+    // callback on next
+    slides.next.$el.addEventListener('webkitAnimationEnd', animationCallback);
+  };
 
-  if(canAnim && !slides.isBusy){
-    slides.isBusy = true;
-    slides.animSlides();
-  }
-};
+  // init slides
+  init(opts);
+
+  // keyboard navigation
+  document.onkeydown = function(e){
+    var dir, canAnim;
+    var keyCode = e.keyCode;
+
+    if(keyCode === 39){
+      dir = 'next';
+      canAnim = (slides.elCounter < slides.elLength - 1);
+    }
+    else if(keyCode === 37){
+      dir = 'prev';
+      canAnim = (slides.elCounter > 0);
+    }
+
+    if(canAnim && !slides.isBusy){
+      slides.currentDir = dir;
+      slides.isBusy = true;
+      animSlides();
+    }
+  };
+
+  return slides;
+});
