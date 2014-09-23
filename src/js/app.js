@@ -21,15 +21,12 @@ var Slides = function(opts){
 };
 
 Slides.prototype = slides;
-Slides.prototype.setCurrent = function(){
-  this.$el[this.elCounter].classList.add('is-current');
-};
 Slides.prototype.init = function(){
   // count total slides
   this.elLength = this.$el.length;
 
   // set current slide
-  this.setCurrent();
+  this.$el[this.elCounter].classList.add('is-current');
 
   // create an object for each slide
   // and push it to a main array
