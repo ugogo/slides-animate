@@ -52,7 +52,7 @@ Slides.prototype.animationCallback = function(){
   // next slide
   this.classList.add('is-current');
   this.classList.remove(slides.next.animationIn);
-  this.removeEventListener('webkitAnimationEnd');
+  this.removeEventListener('webkitAnimationEnd', slides.animationCallback);
 
   // update counter
   if(slides.currentDir == "next")
@@ -67,7 +67,7 @@ Slides.prototype.animSlides = function(){
   // targets
   this.current = this.array[this.elCounter];
   this.next = this.array[ this.currentDir === "next" ? this.elCounter + 1 : this.elCounter - 1 ];
-debugger
+
   // current slide
   this.current.$el
     .classList.add('fadeOut');
