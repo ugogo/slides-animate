@@ -47,6 +47,25 @@ Slides.prototype.init = function(){
   // ready
   this.isBusy = false;
 };
+Slides.prototype.animationCallback = function(){
+  // current slide
+  slides.current.$el.classList.remove('is-current');
+  slides.current.$el.classList.remove('fadeOut');
+
+  // next slide
+  this.classList.add('is-current');
+  this.classList.remove(slides.next.animationIn);
+  this.removeEventListener('webkitAnimationEnd');
+
+  // update counter
+  if(slides.currentDir == "next")
+    slides.elCounter++;
+  else
+    slides.elCounter--;
+
+  // can animate again
+  slides.isBusy = false;
+};
 Slides.prototype.animSlides = function(dir){
   // targets
   this.current = this.array[this.elCounter];
@@ -60,8 +79,8 @@ Slides.prototype.animSlides = function(dir){
   this.next.$el
     .classList.add(this.next.animationIn);
 
-  // callback
-  // do stuff
+  // callback on next
+  this.next.$el.addEventListener('webkitAnimationEnd', slides.animationCallback);
 };
 
 // init slides
