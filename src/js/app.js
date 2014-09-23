@@ -1,5 +1,7 @@
 var slides = {
-  $el: document.querySelectorAll('.slide')
+  $el: document.querySelectorAll('.slide'),
+  elCounter: 0,
+  isBusy: true
 };
 
 var Slides = function(opts){
@@ -9,6 +11,40 @@ var Slides = function(opts){
 };
 
 Slides.prototype = slides;
+Slides.prototype.setCurrent = function(){
+  this.$el[this.elCounter ].classList.add('is-current');
+};
 Slides.prototype.init = function(){
-  console.log('Slides.init();');
+
+  // count total slides
+  this.elLength = this.$el.length;
+
+  // set current slide
+  this.setCurrent();
+
+  // ready
+  this.isBusy = false;
+};
+
+// init slides
+slides.init();
+
+// keyboard navigation
+document.onkeydown = function(e){
+  var dir, canAnim;
+  var keyCode = e.keyCode;
+
+  if(keyCode === 39){
+    dir = 'next';
+    canAnim = (slides.elCounter < slides.elLength - 1);
+  }
+  else if(keyCode === 37){
+    dir = 'prev';
+    canAnim = (slides.elCounter > 0);
+  }
+
+  if(canAnim && !this.isBusy){
+    slides.isBusy = true;
+    // this.animSlides(dir);
+  }
 };
