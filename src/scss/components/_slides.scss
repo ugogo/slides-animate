@@ -21,3 +21,18 @@
       display: table-cell;
       vertical-align: middle;
     }
+
+
+/*
+ * Theme
+ */
+.slide h1 {
+  color: #fff;
+ }
+
+@each $current-color in $slides-colors {
+  $i: index($slides-colors, $current-color);
+  .slide--#{$i} {
+    background-color: $current-color;
+  }
+}
