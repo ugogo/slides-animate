@@ -20,7 +20,8 @@ var slidesAnimate = (function(opts){
     // animations
     animations: {
       show: 'fadeIn',
-      hide: 'fadeOut'
+      hide: 'fadeOut',
+      delay: 0
     }
   };
 
@@ -37,14 +38,15 @@ var slidesAnimate = (function(opts){
     slides.$el[slides.elCounter].classList.add('is-current');
 
     // create an object for each slide
-    // and push it to a main array
+    // and push it to the main slides.array
     [].forEach.call(
       slides.$el,
       function($el, i){
         var obj = {
           $el: $el,
-          animationShow: $el.dataset.animationShow || slides.animations.show,
-          animationHide: $el.dataset.animationHide || slides.animations.hide
+          animationShow:  $el.dataset.animationShow  || slides.animations.show,
+          animationHide:  $el.dataset.animationHide  || slides.animations.hide,
+          animationDelay: $el.dataset.animationDelay || slides.animations.delay
         };
         slides.array.push(obj);
       }
@@ -78,12 +80,16 @@ var slidesAnimate = (function(opts){
     slides.next = slides.array[ slides.currentDir === "next" ? slides.elCounter + 1 : slides.elCounter - 1 ];
 
     // current slide
-    slides.current.$el
-      .classList.add(slides.current.animationHide);
+    setTimeout(function(){
+      slides.current.$el
+        .classList.add(slides.current.animationHide);
+    }, slides.current.animationDelay);
 
     // next slide
-    slides.next.$el
-      .classList.add(slides.next.animationShow);
+    setTimeout(function(){
+      slides.next.$el
+        .classList.add(slides.next.animationShow);
+    }, slides.next.animationDelay);
 
     // callback on next
     slides.next.$el.addEventListener('webkitAnimationEnd', animationCallback);
