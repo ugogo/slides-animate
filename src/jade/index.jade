@@ -7,15 +7,21 @@ block content
   .tip Use &larr; and &rarr; on your keyboard to navigate between slides
   .slides-container
 
-    .slide.slide--1(data-animation-show="fadeIn")
+    .slide.slide--1(
+      data-animation-show="fadeIn",
+      data-animation-hide="fadeOutRight")
       .slide-content
         h1 Slide #1
 
-    .slide.slide--2(data-animation-show="fadeInLeft")
+    .slide.slide--2(
+      data-animation-show="fadeInLeft",
+      data-animation-hide="fadeOutLeft")
       .slide-content
         h1 Slide #2
 
-    .slide.slide--3(data-animation-show="fadeInRight")
+    .slide.slide--3(
+      data-animation-show="fadeInRight",
+      data-animation-hide="fadeOut")
       .slide-content
         h1 Slide #3
 

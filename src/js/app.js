@@ -37,7 +37,8 @@ var slidesAnimate = (function(opts){
       function($el, i){
         var obj = {
           $el: $el,
-          animationShow: $el.dataset.animationShow
+          animationShow: $el.dataset.animationShow,
+          animationHide: $el.dataset.animationHide,
         };
         slides.array.push(obj);
       }
@@ -49,7 +50,7 @@ var slidesAnimate = (function(opts){
   var animationCallback = function(){
     // current slide
     slides.current.$el.classList.remove('is-current');
-    slides.current.$el.classList.remove('fadeOut');
+    slides.current.$el.classList.remove(slides.current.animationHide);
 
     // next slide
     this.classList.add('is-current');
@@ -72,7 +73,7 @@ var slidesAnimate = (function(opts){
 
     // current slide
     slides.current.$el
-      .classList.add('fadeOut');
+      .classList.add(slides.current.animationHide);
 
     // next slide
     slides.next.$el
