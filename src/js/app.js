@@ -10,7 +10,7 @@ var slidesAnimate = (function(opts){
     array: [],
 
     // slides
-    // {$el: $el, animationIn: 'fadeIn'};
+    // {$el: $el, animationShow: 'fadeIn'};
     current: null,
     next: null,
 
@@ -37,7 +37,7 @@ var slidesAnimate = (function(opts){
       function($el, i){
         var obj = {
           $el: $el,
-          animationIn: $el.dataset.animation
+          animationShow: $el.dataset.animationShow
         };
         slides.array.push(obj);
       }
@@ -53,7 +53,7 @@ var slidesAnimate = (function(opts){
 
     // next slide
     this.classList.add('is-current');
-    this.classList.remove(slides.next.animationIn);
+    this.classList.remove(slides.next.animationShow);
     this.removeEventListener('webkitAnimationEnd', animationCallback);
 
     // update counter
@@ -76,7 +76,7 @@ var slidesAnimate = (function(opts){
 
     // next slide
     slides.next.$el
-      .classList.add(slides.next.animationIn);
+      .classList.add(slides.next.animationShow);
 
     // callback on next
     slides.next.$el.addEventListener('webkitAnimationEnd', animationCallback);
