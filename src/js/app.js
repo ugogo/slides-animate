@@ -57,7 +57,6 @@ var slidesAnimate = (function(opts){
     this.removeEventListener('webkitAnimationEnd', animationCallback);
 
     // update counter
-    console.log(slides.currentDir)
     if(slides.currentDir === "next")
       slides.elCounter++;
     else
