@@ -3,7 +3,7 @@ var slidesAnimate = (function(opts){
 
   // default opts
   var slides = {
-    $el: document.querySelectorAll('.slide'),
+    $el: document.querySelectorAll('[data-animation-show]'),
     elCounter: 0,
     isBusy: true,
 

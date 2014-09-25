@@ -1,8 +1,7 @@
 var opts = {
-  $el: document.querySelectorAll('.slide'),
   animations: {
-    show: 'fadeInLeft',
-    hide: 'fadeOutRight'
+    show: 'fadeIn',
+    hide: 'fadeOut'
   }
 };
 slidesAnimate(opts);
