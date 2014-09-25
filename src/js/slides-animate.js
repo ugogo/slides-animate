@@ -4,6 +4,7 @@ var slidesAnimate = (function(opts){
   // default opts
   var slides = {
     $el: document.querySelectorAll('[data-animation-show]'),
+    supportChilds: false,
     elCounter: 0,
     isBusy: true,
 
@@ -39,18 +40,36 @@ var slidesAnimate = (function(opts){
 
     // create an object for each slide
     // and push it to the main slides.array
-    [].forEach.call(
-      slides.$el,
-      function($el, i){
-        var obj = {
-          $el: $el,
-          animationShow:  $el.dataset.animationShow  || slides.animations.show,
-          animationHide:  $el.dataset.animationHide  || slides.animations.hide,
-          animationDelay: $el.dataset.animationDelay || slides.animations.delay
-        };
-        slides.array.push(obj);
+    [].forEach.call(slides.$el, function($el, i){
+      var currentSlide = {
+        $el: $el,
+        animationShow:  $el.dataset.animationShow  || slides.animations.show,
+        animationHide:  $el.dataset.animationHide  || slides.animations.hide,
+        animationDelay: $el.dataset.animationDelay || slides.animations.delay
+      };
+
+      // if supportChilds
+      // push an array of current slide's child
+      // into the current slide object
+      if(slides.supportChilds){
+        var $childs = $el.querySelectorAll('.slide-child');
+        var childsArray = [];
+
+        [].forEach.call($childs, function($el, i){
+          var currentChild = {
+            $el: $el,
+            animationShow:  $el.dataset.animationShow  || slides.animations.show,
+            animationHide:  $el.dataset.animationHide  || slides.animations.hide,
+            animationDelay: $el.dataset.animationDelay || slides.animations.delay
+          };
+          $el.dataset.status = 'hidden';
+          childsArray.push(currentChild);
+        });
+        currentSlide.childs = childsArray;
       }
-    );
+
+      slides.array.push(currentSlide);
+    });
 
     // ready
     slides.isBusy = false;
