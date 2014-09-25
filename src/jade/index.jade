@@ -12,6 +12,10 @@ block content
       data-animation-hide="fadeOutLeft")
       .slide-content
         h1 Slide #1
+        .slide-child(data-animation-show="fadeIn")
+          h2 Slide #1-1
+        .slide-child
+          h2 Slide #1-2
 
     .slide.slide--2(
       data-animation-show="",
@@ -19,6 +23,8 @@ block content
       data-animation-delay="50")
       .slide-content
         h1 Slide #2
+        .slide-child(data-animation-show="fadeIn")
+          h2 Slide #2-1
 
     .slide.slide--3(
       data-animation-show="fadeInRight",

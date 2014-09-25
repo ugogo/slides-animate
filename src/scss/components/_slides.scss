@@ -25,10 +25,24 @@
 
 
 /*
+ * Childs
+ */
+.slide-child {
+  opacity: 0;
+  &.is-show {
+    opacity: 1;
+  }
+}
+
+
+/*
  * Theme
  */
 .slide h1 {
   color: #fff;
+ }
+ .slide h2 {
+  color: rgba(255,255,255, .7);
  }
 
 @each $current-color in $slides-colors {
