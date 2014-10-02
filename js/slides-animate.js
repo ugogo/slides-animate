@@ -45,7 +45,8 @@ var slidesAnimate = (function(opts){
         $el: $el,
         animationShow:  $el.dataset.animationShow  || slides.animations.show,
         animationHide:  $el.dataset.animationHide  || slides.animations.hide,
-        animationDelay: $el.dataset.animationDelay || slides.animations.delay
+        animationDelay: $el.dataset.animationDelay || slides.animations.delay,
+        stepCounter: 1
       };
 
       // if supportChilds
@@ -94,24 +95,48 @@ var slidesAnimate = (function(opts){
     slides.isBusy = false;
   };
   var animSlides = function(){
-    // targets
+    var $elToBindCallback;
+
+    // slides
     slides.current = slides.array[slides.elCounter];
     slides.next = slides.array[ slides.currentDir === "next" ? slides.elCounter + 1 : slides.elCounter - 1 ];
+    slides.current.stepCounter++;
 
-    // current slide
-    setTimeout(function(){
-      slides.current.$el
-        .classList.add(slides.current.animationHide);
-    }, slides.current.animationDelay);
+    // childs
+    var $childs = slides.current.$el.querySelectorAll('[data-animation-step="'+ slides.current.stepCounter +'"]');
+    var childsLength = $childs.length;
 
-    // next slide
-    setTimeout(function(){
-      slides.next.$el
-        .classList.add(slides.next.animationShow);
-    }, slides.next.animationDelay);
+    if(childsLength){
+      // for each childs matching data-animation-step
+      [].forEach.call($childs, function($el, i){
+        // display it
+        $el.classList.add($el.dataset.animationShow);
 
-    // callback on next
-    slides.next.$el.addEventListener('webkitAnimationEnd', animationCallback);
+        // if is last item
+        // bind callback on it
+        if(i+1 === childsLength)
+          $elToBindCallback = $el;
+      });
+    }
+    else{
+      // current slide
+      setTimeout(function(){
+        slides.current.$el
+          .classList.add(slides.current.animationHide);
+      }, slides.current.animationDelay);
+
+      // next slide
+      setTimeout(function(){
+        slides.next.$el
+          .classList.add(slides.next.animationShow);
+      }, slides.next.animationDelay);
+
+      // callback
+      $elToBindCallback = slides.next.$el;
+    }
+    console.log($elToBindCallback)
+return
+    $elToBindCallback.addEventListener('webkitAnimationEnd', animationCallback);
   };
 
   // init slides
