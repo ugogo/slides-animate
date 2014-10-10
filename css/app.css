@@ -662,3 +662,13 @@ p {
 
 .slide--3 {
   background-color: #95a5a6; }
+
+.slide-attributes {
+  display: inline-block;
+  margin: 0 auto;
+  text-align: left;
+  color: rgba(255, 255, 255, 0.6);
+  list-style-type: none; }
+
+.slide-attribute {
+  padding: 0.2em 0; }
