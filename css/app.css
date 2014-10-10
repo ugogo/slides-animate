@@ -649,25 +649,10 @@ p {
   vertical-align: middle; }
 
 /*
- * Childs
- */
-.slide-child {
-  opacity: 0;
-  -webkit-animation-duration: 1s;
-          animation-duration: 1s;
-  -webkit-animation-fill-mode: forwards;
-          animation-fill-mode: forwards; }
-  .slide-child.is-show {
-    opacity: 1; }
-
-/*
  * Theme
  */
 .slide h1 {
   color: #fff; }
-
-.slide h2 {
-  color: rgba(255, 255, 255, 0.7); }
 
 .slide--1 {
   background-color: #3498db; }

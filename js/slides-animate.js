@@ -4,7 +4,6 @@ var slidesAnimate = (function(opts){
   // default opts
   var slides = {
     $el: document.querySelectorAll('[data-animation-show]'),
-    supportChilds: false,
     elCounter: 0,
     isBusy: true,
 
@@ -40,37 +39,18 @@ var slidesAnimate = (function(opts){
 
     // create an object for each slide
     // and push it to the main slides.array
-    [].forEach.call(slides.$el, function($el, i){
-      var currentSlide = {
-        $el: $el,
-        animationShow:  $el.dataset.animationShow  || slides.animations.show,
-        animationHide:  $el.dataset.animationHide  || slides.animations.hide,
-        animationDelay: $el.dataset.animationDelay || slides.animations.delay,
-        stepCounter: 1
-      };
-
-      // if supportChilds
-      // push an array of current slide's child
-      // into the current slide object
-      if(slides.supportChilds){
-        var $childs = $el.querySelectorAll('.slide-child');
-        var childsArray = [];
-
-        [].forEach.call($childs, function($el, i){
-          var currentChild = {
-            $el: $el,
-            animationShow:  $el.dataset.animationShow  || slides.animations.show,
-            animationHide:  $el.dataset.animationHide  || slides.animations.hide,
-            animationDelay: $el.dataset.animationDelay || slides.animations.delay
-          };
-          $el.dataset.status = 'hidden';
-          childsArray.push(currentChild);
-        });
-        currentSlide.childs = childsArray;
+    [].forEach.call(
+      slides.$el,
+      function($el, i){
+        var obj = {
+          $el: $el,
+          animationShow:  $el.dataset.animationShow  || slides.animations.show,
+          animationHide:  $el.dataset.animationHide  || slides.animations.hide,
+          animationDelay: $el.dataset.animationDelay || slides.animations.delay
+        };
+        slides.array.push(obj);
       }
-
-      slides.array.push(currentSlide);
-    });
+    );
 
     // ready
     slides.isBusy = false;
@@ -95,48 +75,24 @@ var slidesAnimate = (function(opts){
     slides.isBusy = false;
   };
   var animSlides = function(){
-    var $elToBindCallback;
-
-    // slides
+    // targets
     slides.current = slides.array[slides.elCounter];
     slides.next = slides.array[ slides.currentDir === "next" ? slides.elCounter + 1 : slides.elCounter - 1 ];
-    slides.current.stepCounter++;
 
-    // childs
-    var $childs = slides.current.$el.querySelectorAll('[data-animation-step="'+ slides.current.stepCounter +'"]');
-    var childsLength = $childs.length;
+    // current slide
+    setTimeout(function(){
+      slides.current.$el
+        .classList.add(slides.current.animationHide);
+    }, slides.current.animationDelay);
 
-    if(childsLength){
-      // for each childs matching data-animation-step
-      [].forEach.call($childs, function($el, i){
-        // display it
-        $el.classList.add($el.dataset.animationShow);
+    // next slide
+    setTimeout(function(){
+      slides.next.$el
+        .classList.add(slides.next.animationShow);
+    }, slides.next.animationDelay);
 
-        // if is last item
-        // bind callback on it
-        if(i+1 === childsLength)
-          $elToBindCallback = $el;
-      });
-    }
-    else{
-      // current slide
-      setTimeout(function(){
-        slides.current.$el
-          .classList.add(slides.current.animationHide);
-      }, slides.current.animationDelay);
-
-      // next slide
-      setTimeout(function(){
-        slides.next.$el
-          .classList.add(slides.next.animationShow);
-      }, slides.next.animationDelay);
-
-      // callback
-      $elToBindCallback = slides.next.$el;
-    }
-    console.log($elToBindCallback)
-return
-    $elToBindCallback.addEventListener('webkitAnimationEnd', animationCallback);
+    // callback on next
+    slides.next.$el.addEventListener('webkitAnimationEnd', animationCallback);
   };
 
   // init slides
