@@ -37,3 +37,14 @@
     background-color: $current-color;
   }
 }
+
+.slide-attributes {
+  display: inline-block;
+  margin: 0 auto;
+  text-align: left;
+  color: rgba(255,255,255, .6);
+  list-style-type: none;
+}
+.slide-attribute {
+  padding: .2em 0;
+}

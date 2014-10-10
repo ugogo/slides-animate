@@ -12,19 +12,29 @@ block content
       data-animation-hide="fadeOutLeft")
       .slide-content
         h1 Slide #1
+        ul.slide-attributes
+          li.slide-attribute data-animation-show="fadeInRight"
+          li.slide-attribute data-animation-hide="fadeOutLeft"
 
     .slide.slide--2(
+      data-animation-show="fadeInRight",
+      data-animation-hide="")
+      .slide-content
+        h1 Slide #2
+        ul.slide-attributes
+          li.slide-attribute data-animation-show="fadeInRight"
+          li.slide-attribute data-animation-hide=""
+
+    .slide.slide--3(
       data-animation-show="",
       data-animation-hide="",
       data-animation-delay="50")
       .slide-content
-        h1 Slide #2
-
-    .slide.slide--3(
-      data-animation-show="fadeInRight",
-      data-animation-hide="fadeOut")
-      .slide-content
         h1 Slide #3
+        ul.slide-attributes
+          li.slide-attribute data-animation-show=""
+          li.slide-attribute data-animation-hide=""
+          li.slide-attribute data-animation-delay="50"
 
 block scripts
   script(src="js/slides-animate.js")
